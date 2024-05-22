@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SverigesFordonsFöreningEnterprisesAB.Data;
+using SverigesFordonsFöreningEnterprisesAB.Services;
 
 namespace SverigesFordonsFöreningEnterprisesAB
 {
