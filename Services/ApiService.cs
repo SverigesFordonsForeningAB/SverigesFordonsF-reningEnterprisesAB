@@ -9,6 +9,7 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
     public class ApiService
     {
         private readonly HttpClient _client;
+
         public ApiService(IHttpClientFactory clientfactory)
         {
             _client = clientfactory.CreateClient("API Client");
@@ -38,7 +39,7 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
         public async Task AddCustmerAsync(Customer customer)
         {
             var json = JsonConvert.SerializeObject(customer);
-            var data = new StringContent(json,Encoding.UTF8, "application/json");
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("cusomer", data);
             response.EnsureSuccessStatusCode();
         }
@@ -46,7 +47,7 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
         public async Task UpdateCustomerAsync(int id, Customer customer)
         {
             var json = JsonConvert.SerializeObject(customer);
-            var data = new StringContent(json, Encoding.UTF8,"application/json");
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
 
             var responde = await _client.PutAsync($"customers/{id}", data);
             responde.EnsureSuccessStatusCode();
@@ -61,7 +62,7 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
         public async Task<Customer> GetCustomerByIdAsync(int id)
         {
             var response = await _client.GetAsync($"customer/{id}");
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadFromJsonAsync<Customer>();
             }
@@ -73,7 +74,7 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
 
         ////////////////////////////////////   [CAR]   /////////////////////////////////////////////
         // Get all Cars 
-        public async Task <List<Car>> GetCarAsync()
+        public async Task<List<Car>> GetCarAsync()
         {
             try
             {
@@ -130,20 +131,125 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
 
         ////////////////////////////////////   [Motorcycle]   /////////////////////////////////////////////
         // Get all Motorcycle
-        public async Task <List<Motorcycle>> GetMotorcycleAsync()
+        public async Task<List<Motorcycle>> GetMotorcycleAsync()
         {
-            var response = await _client.GetAsync("motorcycle");
-            if(!response.IsSuccessStatusCode)
+            try
+            {
+                var response = await _client.GetAsync("motorcycle");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new List<Motorcycle>();
+                }
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var motorcycles = JsonConvert.DeserializeObject<List<Motorcycle>>(jsonString);
+                return motorcycles;
+            }
+            catch (Exception ex)
             {
                 return new List<Motorcycle>();
             }
-            var jsonstring = await response.Content.ReadAsStringAsync();
-            var motorcycle = JsonConvert.DeserializeObject<List<Motorcycle>>(jsonstring);
-            return motorcycle;
-
         }
-			
+
+        //Create a new motorcycle
+        public async Task AddMotorcycleAsync(Motorcycle motorcycle)
+        {
+            var json = JsonConvert.SerializeObject(motorcycle);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("motorcycle", data);
+            response.EnsureSuccessStatusCode();
+        }
+        //Update motorcycle
+        public async Task UpdateMotorcycleAsync(int id, Motorcycle motorcycle)
+        {
+            var json = JsonConvert.SerializeObject(motorcycle);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var responde = await _client.PutAsync($"motorcycle/{id}", data);
+            responde.EnsureSuccessStatusCode();
+        }
+        // Delet an Motorcycle
+        public async Task DeleteMotorcycleAsync(int id)
+        {
+            var response = await _client.DeleteAsync($"motorcycle/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+        // Returns an car by id
+        public async Task<Motorcycle> GetMotorcycleByIdAsync(int id)
+        {
+            var response = await _client.GetAsync($"motorcycle/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<Motorcycle>();
+            }
+            else
+            {
+                throw new InvalidOperationException($"API failed with statuscode {response.StatusCode}");
+            }
+        }
+
+
+        ////////////////////////////////////   [Order]   /////////////////////////////////////////////
+        // Get all Order
+        public async Task<List<Order>> GetOrderAsync()
+        {
+            try
+            {
+                var response = await _client.GetAsync("order");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new List<Order>();
+                }
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var order = JsonConvert.DeserializeObject<List<Order>>(jsonString);
+                return order;
+            }
+            catch (Exception ex)
+            {
+                return new List<Order>();
+            }
+        }
+
+        //Create a new Order
+        public async Task AddOrderAsync(Order order)
+        {
+            var json = JsonConvert.SerializeObject(order);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("order", data);
+            response.EnsureSuccessStatusCode();
+        }
+        //Update Order
+        public async Task UpdateOrderAsync(int id, Order order)
+        {
+            var json = JsonConvert.SerializeObject(order);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var responde = await _client.PutAsync($"order/{id}", data);
+            responde.EnsureSuccessStatusCode();
+        }
+        // Delet an Order
+        public async Task DeleteOrderAsync(int id)
+        {
+            var response = await _client.DeleteAsync($"order/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+        // Returns an Order by id
+        public async Task<Order> GetOrderByIdAsync(int id)
+        {
+            var response = await _client.GetAsync($"order/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<Order>();
+            }
+            else
+            {
+                throw new InvalidOperationException($"API failed with statuscode {response.StatusCode}");
+            }
+        }
+
+    }
 }
-        
-    
+     
+
+
+
 
