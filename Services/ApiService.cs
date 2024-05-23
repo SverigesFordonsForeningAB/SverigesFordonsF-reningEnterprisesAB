@@ -149,6 +149,7 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
                 return new List<Motorcycle>();
             }
         }
+<<<<<<< HEAD
 
         //Create a new motorcycle
         public async Task AddMotorcycleAsync(Motorcycle motorcycle)
@@ -252,4 +253,10 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
 
 
 
+=======
+    }		
+}
+        
+    
+>>>>>>> 0818f956964f00eea8809e2c731ae96522f0d018
 
