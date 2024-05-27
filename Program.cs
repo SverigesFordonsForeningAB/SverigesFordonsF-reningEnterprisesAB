@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SverigesFordonsFöreningEnterprisesAB.Data;
+
 using SverigesFordonsFöreningEnterprisesAB.Services;
 
 namespace SverigesFordonsFöreningEnterprisesAB
@@ -14,9 +14,9 @@ namespace SverigesFordonsFöreningEnterprisesAB
            
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddHttpClient("API Client", client =>
+            builder.Services.AddHttpClient("APIClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7286/");
+                client.BaseAddress = new Uri("https://localhost:7155/");
             });
             builder.Services.AddScoped<ApiService>();
             var app = builder.Build();

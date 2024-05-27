@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Text;
 using Azure;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SverigesFordonsFöreningEnterprisesAB.Models;
 
@@ -12,7 +14,7 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
 
         public ApiService(IHttpClientFactory clientfactory)
         {
-            _client = clientfactory.CreateClient("API Client");
+            _client = clientfactory.CreateClient("APIClient");
         }
         ////////////////////////////////////   [CUSTOMER]   /////////////////////////////////////////////
         // Get all Customer GetCustomerAsync();
@@ -36,11 +38,11 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
             }
         }
         //Create a new Customer
-        public async Task AddCustmerAsync(Customer customer)
+        public async Task AddCustomerAsync(Customer customer)
         {
             var json = JsonConvert.SerializeObject(customer);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("cusomer", data);
+            var response = await _client.PostAsync("customer", data);
             response.EnsureSuccessStatusCode();
         }
         //Update Customer
@@ -49,7 +51,7 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
             var json = JsonConvert.SerializeObject(customer);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var responde = await _client.PutAsync($"customers/{id}", data);
+            var responde = await _client.PutAsync($"customer/{id}", data);
             responde.EnsureSuccessStatusCode();
         }
         //Delet a customer
@@ -194,14 +196,14 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
         {
             try
             {
-                var response = await _client.GetAsync("order");
+                var response = await _client.GetAsync("orders");
                 if (!response.IsSuccessStatusCode)
                 {
                     return new List<Order>();
                 }
                 var jsonString = await response.Content.ReadAsStringAsync();
-                var order = JsonConvert.DeserializeObject<List<Order>>(jsonString);
-                return order;
+                var orders = JsonConvert.DeserializeObject<List<Order>>(jsonString);
+                return orders;
             }
             catch (Exception ex)
             {
