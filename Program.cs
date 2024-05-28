@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using SverigesFordonsFöreningEnterprisesAB.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SverigesFordonsFöreningEnterprisesAB
 {
@@ -10,6 +11,8 @@ namespace SverigesFordonsFöreningEnterprisesAB
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDbContext") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.")));
 
            
             // Add services to the container.
