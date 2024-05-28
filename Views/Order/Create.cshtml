@@ -1,0 +1,22 @@
+﻿@model SverigesFordonsFöreningEnterprisesAB.Models.Order
+<h2>Add Order</h2>
+<form asp-action="Create" method="post">
+	<div class="form-group">
+		<label asp-for="Customer" class="control-label"></label>
+		<input asp-for="Customer" class="form-control" />
+		<span asp-validation-for="Customer" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Cars" class="control-label"></label>
+		<input asp-for="Cars" class="form-control" />
+		<span asp-validation-for="Cars" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Motorcycles" class="control-label"></label>
+		<input asp-for="Motorcycles" class="form-control" />
+		<span asp-validation-for="Motorcycles" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<input type="submit" value="Create" class="btn btn-outline-primary" />
+	</div>
+</form>

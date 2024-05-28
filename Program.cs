@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using SverigesFordonsFöreningEnterprisesAB.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SverigesFordonsFöreningEnterprisesAB
 {
@@ -10,8 +11,7 @@ namespace SverigesFordonsFöreningEnterprisesAB
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-           
+            
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddHttpClient("APIClient", client =>

@@ -4,77 +4,78 @@ using SverigesFordonsFöreningEnterprisesAB.Services;
 
 namespace SverigesFordonsFöreningEnterprisesAB.Controllers
 {
-    public class OrderController : Controller
+    public class CustomerController : Controller
     {
         private readonly ApiService _apiService;
-       public OrderController(ApiService apiService)
+        public CustomerController(ApiService apiService)
         {
             _apiService = apiService;
         }
         public async Task<IActionResult> Index()
         {
-            var order = await _apiService.GetOrderAsync();
-            if (order == null || !order.Any())
+            var customers = await _apiService.GetCustomersAsync();
+            if (customers == null || !customers.Any())
             {
-                return View(new List<Order>());
+                return View(new List<Customer>());
             }
-            return View(order);
+
+            return View(customers);
         }
-        // Get: Orders/create
+        // Get: Customer/create
         public IActionResult Create()
         {
             return View();
         }
-        // Post: Orders/create
+        // Post: Emploees/create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Order order)
+        public async Task<IActionResult> Create(Customer customer)
         {
             if (ModelState.IsValid)
             {
-                await _apiService.AddOrderAsync(order);
+                await _apiService.AddCustomerAsync(customer);
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(customer);
         }
-        // Show a form to get an order
-        ////// GET: order/Edit/5
+        // Show a form to get an customer
+        ////// GET: Customer/Edit/5
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var order = await _apiService.GetOrderByIdAsync(id);
-            return View(order);
+            var customer = await _apiService.GetCustomerByIdAsync(id);
+            return View(customer);
         }
-        ////// Uppdate an order
+        ////// Uppdate an customer
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, Order order)
+        public async Task<IActionResult> Edit(int id,Customer customer)
         {
             if (ModelState.IsValid)
             {
-                await _apiService.UpdateOrderAsync(id, order);
+                await _apiService.UpdateCustomerAsync(id, customer);
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(customer);
         }
-        // Get details for orders
+        // Get details for customer
         public async Task<IActionResult> Details(int id)
         {
-            var order = await _apiService.GetOrderByIdAsync(id);
-            return View(order);
+            var customer = await _apiService.GetCustomerByIdAsync(id);
+            return View(customer);
         }
+
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var order = await _apiService.GetOrderByIdAsync(id);
-            if (order == null)
+            var customer = await _apiService.GetCustomerByIdAsync(id);
+            if (customer == null)
                 return NotFound();
-            return View(order);
+            return View(customer);
         }
-
         [HttpPost, ActionName("DeleteConfirmed")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _apiService.DeleteOrderAsync(id);
+            await _apiService.DeletCustomerAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

@@ -80,7 +80,7 @@ namespace SverigesFordonsFöreningEnterprisesAB.Services
         {
             try
             {
-                var responde = await _client.GetAsync("car");
+                var responde = await _client.GetAsync("cars");
                 if (!responde.IsSuccessStatusCode)
                 {
                     return new List<Car>();

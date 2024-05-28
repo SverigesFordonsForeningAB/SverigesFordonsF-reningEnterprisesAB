@@ -4,77 +4,79 @@ using SverigesFordonsFöreningEnterprisesAB.Services;
 
 namespace SverigesFordonsFöreningEnterprisesAB.Controllers
 {
-    public class OrderController : Controller
+    public class CarController : Controller
     {
-        private readonly ApiService _apiService;
-       public OrderController(ApiService apiService)
+        public readonly ApiService _apiService;
+        public CarController(ApiService apiService)
         {
             _apiService = apiService;
         }
         public async Task<IActionResult> Index()
         {
-            var order = await _apiService.GetOrderAsync();
-            if (order == null || !order.Any())
+            var car = await _apiService.GetCarAsync();
+            if (car == null || !car.Any())
             {
-                return View(new List<Order>());
+                Console.WriteLine("No cars found in the database or API service returned null.");
+                return View(new List<Car>());
             }
-            return View(order);
+
+            return View(car);
         }
-        // Get: Orders/create
+        // Get: Car/create
         public IActionResult Create()
         {
             return View();
         }
-        // Post: Orders/create
+        // Post: Car/create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Order order)
+        public async Task<IActionResult> Create(Car car)
         {
             if (ModelState.IsValid)
             {
-                await _apiService.AddOrderAsync(order);
+                await _apiService.AddCarAsync(car);
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(car);
         }
-        // Show a form to get an order
-        ////// GET: order/Edit/5
+        // Show a form to get an car
+        ////// GET: Car/Edit/5
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var order = await _apiService.GetOrderByIdAsync(id);
-            return View(order);
+            var car = await _apiService.GetCarByIdAsync(id);
+            return View(car);
         }
-        ////// Uppdate an order
+        ////// Uppdate an car
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, Order order)
+        public async Task<IActionResult> Edit(int id, Car car)
         {
             if (ModelState.IsValid)
             {
-                await _apiService.UpdateOrderAsync(id, order);
+                await _apiService.UpdateCarAsync(id, car);
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(car);
         }
-        // Get details for orders
+        // Get details for car
         public async Task<IActionResult> Details(int id)
         {
-            var order = await _apiService.GetOrderByIdAsync(id);
-            return View(order);
+            var car = await _apiService.GetCarByIdAsync(id);
+            return View(car);
         }
+
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var order = await _apiService.GetOrderByIdAsync(id);
-            if (order == null)
+            var car = await _apiService.GetCarByIdAsync(id);
+            if (car == null)
                 return NotFound();
-            return View(order);
+            return View(car);
         }
-
         [HttpPost, ActionName("DeleteConfirmed")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _apiService.DeleteOrderAsync(id);
+            await _apiService.DeleteCarAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

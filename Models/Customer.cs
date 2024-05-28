@@ -14,6 +14,6 @@ namespace SverigesFordonsFöreningEnterprisesAB.Models
         public string Phone { get; set; }
         [Required]
         public string SocialSecurityNumber { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<Order>? Orders { get; set; }
     }
 }

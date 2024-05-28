@@ -1,0 +1,40 @@
+﻿@using SverigesFordonsFöreningEnterprisesAB.Models
+@model List<Car>
+
+<h1>Cars</h1>
+<a asp-action="Create" class="btn btn-primary">Add a new car</a>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Car Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td>@car.Brand</td>
+                    <td>@car.Model</td>
+                    <td>@car.CarPrice</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@car.CarId" class="btn btn-primary">Edit</a>
+                        <a asp-action="Details" asp-route-id="@car.CarId" class="btn btn-info">Details</a>
+                        <form asp-action="Delete" asp-route-id="@car.CarId" method="post" class="d-inline-block">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this car?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No car in the database</p>
+}
